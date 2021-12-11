@@ -57,4 +57,24 @@ function makeTable(query, param){
     })
 }
 
+function addDepartment(){
+    inq.prompt({
+        type: 'input',
+        name: 'department',
+        message: 'What is the new department name?'
+    })
+    .then(answer =>{
+        let department = answer.department.replace(/\s+/g, '_');
+        const sql = 'insert into departments (name) values (?)';
+        db.query(sql, department, (err, result)=>{
+            if (err){
+                console.log(err);
+                return firstPrompt();
+            }
+            console.log(`Added ${department} to Departments!`);
+            return firstPrompt();
+        })
+    })
+}
+
 firstPrompt();
